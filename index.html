@@ -1,0 +1,86 @@
+<html lang="zh-CN">  
+<head>  
+ <meta charset="UTF-8">  
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+ <title>异步动画示例</title>  
+ <style>  
+ body {  
+ background: #6c373f;  
+ display: flex;  
+ justify-content: center;  
+ }  
+
+ .alice-container {  
+ width:90vh;  
+ display: grid;  
+ place-items: center;  
+ grid-template-areas:  
+ "a1 . ."  
+ ". a2 ."  
+ ". . a3";  
+ }  
+
+ #alice1 {  
+ grid-area: a1;  
+ }  
+
+ #alice2 {  
+ grid-area: a2;  
+ }  
+
+ #alice3 {  
+ grid-area: a3;  
+ }  
+
+ @keyframes aliceTumbling {  
+0% {  
+ color: #000;  
+ transform: rotate(0) translate3D(-50%, -50%,0);  
+ }  
+30% {  
+ color: #431236;  
+ }  
+100% {  
+ color: #000;  
+ transform: rotate(360deg) translate3D(-50%, -50%,0);  
+ }  
+ }  
+ </style>  
+</head>  
+<body>  
+ <div class="alice-container" id="alice">  
+ <img id="alice1" src="alice.svg" alt="图片1" >  
+ <img id="alice2" src="alice.svg" alt="图片2" >  
+ <img id="alice3" src="alice.svg" alt="图片3" >  
+ </div>  
+ <script>  
+ const aliceTumbling = [  
+ { transform: 'rotate(0) scale(1)' },  
+ { transform: 'rotate(360deg) scale(0)' }  
+ ];  
+
+ const aliceTiming = {  
+ duration:2000,  
+ iterations:1,  
+ fill: 'forwards'  
+ }  
+
+ const alice1 = document.getElementById("alice1");  
+ const alice2 = document.getElementById("alice2");  
+ const alice3 = document.getElementById("alice3");  
+
+ async function animateAlices() {  
+ try {  
+ await alice1.animate(aliceTumbling, aliceTiming).finished;  
+ await alice2.animate(aliceTumbling, aliceTiming).finished;  
+ await alice3.animate(aliceTumbling, aliceTiming).finished;  
+ }  
+ catch (error) {  
+ console.error(`Error animating Alices: ${error}`);  
+ }  
+ }  
+
+ animateAlices();  
+ </script>  
+</body>  
+</html>
